@@ -1,4 +1,4 @@
-from server.app.agent.graph.state import State
+from server.state import State
 
 
 def router(state: State):
