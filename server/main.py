@@ -1,11 +1,12 @@
-from typing import Literal
+import asyncio
+from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
 
 from config import config
-from graph import executor, perm_router # run executor in main at start
+from graph import executor, perm_router
 
 
 class Message(BaseModel):
@@ -13,23 +14,21 @@ class Message(BaseModel):
     message: str
 
 
-def create_app() -> FastAPI:
-    app = FastAPI(title="Noesis")
-
-    @app.post("/message")
-    def receive_message(message: Message):
-        perm_router(message)
-        return "OK"
-
-    return app
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    task = asyncio.create_task(executor())
+    yield
+    task.cancel()
 
 
-app = create_app()
+app = FastAPI(lifespan=lifespan)
 
 
-def main() -> None:
-    uvicorn.run(app, host="127.0.0.1", port=config.port)
+@app.post("/message")
+def receive_message(message: Message):
+    perm_router(message)
+    return {"status": "ok"}
 
 
 if __name__ == "__main__":
-    main()
+    uvicorn.run("main:app", host="127.0.0.1", port=config.port)

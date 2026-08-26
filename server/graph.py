@@ -1,47 +1,80 @@
+from langchain.messages import HumanMessage
+from langchain.agents import create_agent
+from state import State
+
+state: State = {
+    "messages": []
+}
+
+
 def perm_router(message):
-    # add messge to state
-    # messages = [
-    #     {
-    #         "role": msg["role"],
-    #         "content": f'{msg["content"]["username"]}: {msg["content"]["message"]}'
-    #     }
-    #     for msg in state["messages"]
-    # ]
+    state["messages"].append({
+        "role": "user",
+        "content": message.username + ": " + message.message
+    })
 
-    # response = model.invoke(messages)
-
-    # read username admin list
-
-    # username = admin username -> router
-    # username = no admin username -> answer
+    if message.username == "Iguaka": # read username admin list/ if message.username in admin_usernames:
+        router(message.message)
+    else:
+        answer()
 
 
-def router():
-    # llm call
+def router(message):
+    agent = create_agent(
+        model="openai:gpt-5.5",
+        system_prompt="You are a helpful assistant",
+    )
+    result = agent.invoke({"messages": [{"role": "user", "content": message}]})
 
-    # question = answer()
-    # task = add_task(??
-    # goal = planner()
+    match result:
+        case "question":
+            answer()
+        case "task":
+            add_task(message)
+        case "goal":
+            planner(message)
+        case _:
+            print("error")
 
 
 def answer():
-    # llm call
-    # call game status
+    status = str # game status info
+    goals = str # goal status
+    tasks = str # current tasks + incoming task
 
-    # response -> end
+    agent = create_agent(
+        model="openai:gpt-5.5",
+        system_prompt=f"You are a helpful assistant {status} {goals} {tasks}",
+    )
+    result = agent.invoke(state["messages"])
+
+    print(result)
+    # send result
 
 
-def add_task():
+def add_task(message):
+    print("a")
     # add message to incoming_task state
 
 
-def planner():
-    # llm call
+def planner(message):
+    status = str # get game status
 
+    agent = create_agent(
+        model="openai:gpt-5.5",
+        system_prompt=f"You are a helpful assistant {status}",
+    )
+    result = agent.invoke({"messages": [{"role": "user", "content": message}]})
+
+    # return tasks
     # save tasks state
 
 
-def executor():
+async def executor():
+        print("A")
+        print("B")
+
+
     # bucle
     # estado1 = false
     # estado2 = false
@@ -58,4 +91,5 @@ def executor():
 
 
 def response():
+    print("a")
     # llm call
