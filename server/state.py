@@ -1,36 +1,27 @@
 from typing import Annotated, TypedDict
 
 from langchain.messages import AnyMessage
-from langgraph.graph.message import add_messages
-
-class Perm:
-  x = 5
-
-class Type:
-  x = 5
-
-class Username:
-    x = 5
-
 
 
 class State(TypedDict):
     # Messages
-    # messages: Annotated[list[AnyMessage], Role, Type, Username, add_messages]
-    messages: str
+    messages: list[dict[str, str]]
 
-    # Qué estábamos haciendo
+    # Now
     # execution_type: str  # "task" | "goal"
 
     # Goal
+    goals: list[str]
     # goal_tasks: list
     # current_task: int
 
-    # Tool dentro de la task
+    # Tool in task
+    tasks: list[str]
+    incoming_task : str
     # current_tool: int
 
-    # Resultado de ejecución
+    # Result ejecution
     # results: list
 
-    # Petición que interrumpió
+    # idk
     # pending_request: dict | None

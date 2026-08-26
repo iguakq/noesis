@@ -5,11 +5,11 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 from config import config
-from graph import graph
+from graph import executor, perm_router # run executor in main at start
 
 
 class Message(BaseModel):
-    perm: Literal["admin", "user"]
+    username: str
     message: str
 
 
@@ -18,10 +18,8 @@ def create_app() -> FastAPI:
 
     @app.post("/message")
     def receive_message(message: Message):
-        result = graph.invoke(
-                {"messages":  message.message}
-            )
-        return {"result": result}
+        perm_router(message)
+        return "OK"
 
     return app
 
