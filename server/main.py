@@ -11,7 +11,10 @@ from graph import executor, perm_router
 
 class Message(BaseModel):
     username: str
-    message: str
+    content: str
+
+class Server(BaseModel):
+    content: str
 
 
 @asynccontextmanager
@@ -25,8 +28,13 @@ app = FastAPI(lifespan=lifespan)
 
 
 @app.post("/message")
-def receive_message(message: Message):
+def receive_player_message(message: Message):
     perm_router(message)
+    return {"status": "ok"}
+
+
+@app.post("/server")
+def receive_server_message(server: Server):
     return {"status": "ok"}
 
 

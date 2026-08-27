@@ -14,7 +14,7 @@ def parse_args() -> Config:
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--env-url", type=str, default="C:/noesis")
-    parser.add_argument("--model", type=str, default="claude-sonnet-4-6")
+    parser.add_argument("--model", type=str, default="openrouter:anthropic/claude-sonnet-4-6")
     parser.add_argument("--name", type=str, default="Noesis")
     args = parser.parse_args()
     return Config(
