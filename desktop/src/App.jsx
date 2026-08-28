@@ -3,6 +3,7 @@ import { neutralTheme } from '@astryxdesign/theme-neutral';
 import { AppShell } from '@astryxdesign/core/AppShell'
 import { TopNav, TopNavHeading } from '@astryxdesign/core/TopNav'
 import { IconButton } from '@astryxdesign/core/IconButton'
+import { Minus, Maximize, X, Settings, CirclePlus } from 'lucide-react'
 import { SideNav, SideNavItem, SideNavSection } from '@astryxdesign/core/SideNav'
 
 function App() {
@@ -19,10 +20,17 @@ function App() {
             endContent={
               <>
                 <IconButton
+                  icon={<Minus/>}
                   label="Minimize"
                 />
 
                 <IconButton
+                  icon={<Maximize/>}
+                  label="Maximize"
+                />
+
+                <IconButton
+                  icon={<X/>}
                   label="Close"
                 />
               </>
@@ -34,12 +42,14 @@ function App() {
           <SideNav
             footer={
               <SideNavItem
+                icon={<Settings/>}
                 label="Settings"
               />
             }
           >
             <SideNavSection title="Main" isHeaderHidden>
               <SideNavItem
+                icon={<CirclePlus/>}
                 label="New Bot"
               />
             </SideNavSection>
