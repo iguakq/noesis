@@ -20,6 +20,7 @@ def perm_router(message):
 
 
 def type_router(message):
+    # memory? return questio, task: goal, goal: goal
     result = router_agent.invoke({"messages": [{"role": "user", "content": message.content}]})
     classification = result["messages"][-1].content
     print(classification)
@@ -36,10 +37,6 @@ def type_router(message):
 
 
 def answer(message):
-    status = str # game status info
-    goals = str # goal status
-    tasks = str # current tasks + incoming task
-
     result = answer_agent.invoke({"messages": [{"role": "user", "content": message.username + ": " + message.content}]}, thread_config,)
     ai_message = result["messages"][-1]
     print(ai_message.content)
@@ -71,12 +68,17 @@ async def executor():
 
         # escuchar cambios en tasks
         # cambio -> empezar a ejecutar
+        # tool -> error -> retry
+        # task complete -> evaluator vs task and goal
         # terminar todo -> response
 
         # escuchar cambios en incoming_tasks
         # cambio -> parar task execution, ejecutar
         # resultado -> response
 
+# compare task result vs task, compare task vs goal
+def evaluator():
+    print("A")
 
 def response():
     print("a")

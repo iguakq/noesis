@@ -57,3 +57,11 @@ Output:
 ["Obtain a tool capable of mining diamonds", "Locate a source of diamonds", "Acquire enough diamonds for a full armor set", "Craft the diamond armor pieces", "Equip the armor"]
 
 Respond with the JSON array only."""
+
+    # answer
+    # status = str # game status info
+    # goals = str # goal status
+    # tasks = str # current tasks + incoming task
+
+
+ANSWER_SYSTEM_PROMT = """You are a bot that play miencraft, your responses will send in the game chat, respond and act like a normal player, dont respond all types of questions, se strict and short answer, you recibe username: message, pls respond base in his username """

@@ -2,7 +2,7 @@ from config import config
 
 from langchain.chat_models import init_chat_model
 from langchain.agents import create_agent
-from promts import ROUTER_SYSTEM_PROMPT, PLANNER_SYSTEM_PROMPT
+from promts import ROUTER_SYSTEM_PROMPT,ANSWER_SYSTEM_PROMT, PLANNER_SYSTEM_PROMPT
 from langgraph.checkpoint.memory import InMemorySaver
 
 model = init_chat_model(
@@ -17,7 +17,7 @@ router_agent = create_agent(
 
 answer_agent = create_agent(
     model=model,
-    system_prompt=f"You are a bot that play miencraft, your responses will send in the game chat, respond and act like a normal player, dont respond all types of questions, se strict and short answer, you recibe username: message, pls respond base in his username",
+    system_prompt=ANSWER_SYSTEM_PROMT,
     checkpointer=InMemorySaver(),
 )
 
